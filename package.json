@@ -1,0 +1,26 @@
+{
+  "name": "cli-sets-templatea",
+  "version": "1.0.0",
+  "description": "这里配置一个脚手架工具",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git",
+      "useEmoji": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyhxiaoning/cli-sets-templateA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nyhxiaoning/cli-sets-templateA/issues"
+  },
+  "homepage": "https://github.com/nyhxiaoning/cli-sets-templateA#readme"
+}
