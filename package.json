@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/nyhxiaoning/cli-sets-templateA/issues"
   },
-  "homepage": "https://github.com/nyhxiaoning/cli-sets-templateA#readme"
+  "homepage": "https://github.com/nyhxiaoning/cli-sets-templateA#readme",
+  "devDependencies": {
+    "cz-git": "^1.3.10"
+  }
 }
