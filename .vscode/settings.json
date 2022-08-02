@@ -1,0 +1,73 @@
+{
+    "zentabs.maximumOpenedTabs": 5,
+    "prettier.resolveGlobalModules": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "护眼主题.查看用户配置文件📙": "如果配置出错，可以手动将此页内错误的配置项删除！！！",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "terminal.integrated.profiles.windows": {
+        "Windows PowerShell": {
+            "path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        },
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Windows PowerShell",
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        "javascript",
+        {
+            "language": "vue",
+            "autoFix": true
+        },
+        "html",
+        "vue"
+    ],
+    "eslint.codeAction.showDocumentation": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true
+        },
+        "eslint.format.enable": true,
+        //autoFix默认开启，只需输入字符串数组即可
+        "eslint.validate": [
+            "javascript",
+            "vue",
+            "html"
+        ],
+        "enable": true
+    },
+    "prettier.requireConfig": true,
+    "prettier.requirePragma": true,
+    "files.exclude": {
+        "node_modules": false
+    },
+    "workspace.isHidden": false,
+    "alias-skip.mappings": {
+        "~/": "/src" // 默认只有`@`映射，映射到`/src`，你可以添加更多映射，映射路径必须以`/`开头
+    },
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml"
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
+}
