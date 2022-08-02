@@ -1,0 +1,3 @@
+packages:
+  # 子项目存放的地方
+  - 'packages/**'

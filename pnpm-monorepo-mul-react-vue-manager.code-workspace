@@ -1,0 +1,36 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"zentabs.maximumOpenedTabs": 5,
+		"terminal.integrated.profiles.windows": {
+			"Windows PowerShell": {
+				"path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+			},
+			"PowerShell": {
+				"source": "PowerShell",
+				"icon": "terminal-powershell"
+			},
+			"Command Prompt": {
+				"path": [
+					"${env:windir}\\Sysnative\\cmd.exe",
+					"${env:windir}\\System32\\cmd.exe"
+				],
+				"args": [],
+				"icon": "terminal-cmd"
+			},
+			"Git Bash": {
+				"source": "Git Bash"
+			}
+		},
+		"terminal.integrated.defaultProfile.windows": "Windows PowerShell",
+		"typescript.tsdk": "node_modules\\typescript\\lib",
+		"workspace.isHidden": false,
+		"alias-skip.mappings": {
+			"@": "/src"
+		}
+	}
+}
