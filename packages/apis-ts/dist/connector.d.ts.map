@@ -1,0 +1,1 @@
+{"version":3,"file":"connector.d.ts","sourceRoot":"","sources":["../src/connector.ts"],"names":[],"mappings":"AAAA,OAAc,EAAE,aAAa,EAAE,MAAM,OAAO,CAAC;AAQ7C,yBAAyB;AAGzB,qBAAa,SAAS;IAElB,OAAO,CAAC,KAAK,CAAiB;;IA+BvB,YAAY;IAKnB,OAAO,CAAC,IAAI;CAsFf;AAED,eAAe,SAAS,CAAC"}
