@@ -4,6 +4,7 @@ enum cliTypes {
     "v3tsp" = "vue3-webpack-ts-eslint-babel",
     "v2pformat" = "vue2-webpack-eslint-babel",
     "v2tsvite" = "vue2-ts-vite",
-    "v3tsvitecom" = "vue3-ts-vite-com"
+    "v3tsvitecom" = "vue3-ts-vite-com",
+    "monomanager"="pnpm-monorepo-mul-react-vue-manager"
 
 }
