@@ -33,8 +33,8 @@ const buildAll = async () => {
             lib: {
                 entry: path.resolve(entryDir, 'index.ts'),
                 // 组件库名字
-                name: 'my-components-base',
-                fileName: 'my-components-base',
+                name: 'my-components-base-daning-private',
+                fileName: 'my-components-base-daning-private',
                 // 输出格式
                 formats: ['es', 'umd']
             },

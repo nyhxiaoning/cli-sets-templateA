@@ -106,3 +106,47 @@ npm publish后，发现错误说，你不能发布名为lib的包，意思是重
 
 
 
+## 创建npm私有服务器，公司内部访问
+因为npm上面的包都是公共，不能私有化。
+
+-npm install -g verdaccio --unsafe-perm
+
+-安装完成后，命令行输入verdaccio启动一次，会生成下面文件
+会有输出显示：
+~~~
+安装后，在文件夹 C:\Users\rongm\.config\verdaccio\config.yaml
+
+~~~
+
+-在配置文件的末尾添加listen: 0.0.0.0:4873
+
+-配置文件的storage选项，然后把仓库的位置填写进去，注意是用斜线，而不是反斜线
+~~~
+
+storage: E:/CICD/selfnpm
+
+重启verdaccio命令
+访问：http://127.0.0.1:4873/或是本机ip+端口4873
+
+接着nrm add localnpm  ip+端口4873
+
+增加后，nrm ls  
+localnpm ----- http://localhost:4873/
+
+
+~~~
+
+-切换私有npm域，新建用户
+npm adduser
+
+这里添加的daning,密码和原来的npm一样，然后访问127.0.0.1：4873
+
+
+-将刚刚的lib库，尝试再次上传一次
+
+创建一个npm init -f
+
+## 私有域配置了nrm后，如果使用，
+就是npm i 后使用，和正常的一摸一样，
+在私有域找不到，会自动连接到npm.mirror上，自己不用担心私有共有的包的问题。
+
