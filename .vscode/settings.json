@@ -51,12 +51,9 @@
     "prettier.requireConfig": true,
     "prettier.requirePragma": true,
     "files.exclude": {
-        "packages\\vue3-components\\vite.config.ts": false
+        "node_modules": false
     },
     "workspace.isHidden": false,
-    "alias-skip.mappings": {
-        "@": "/src" // 默认只有`@`映射，映射到`/src`，你可以添加更多映射，映射路径必须以`/`开头
-    },
     "[xml]": {
         "editor.defaultFormatter": "redhat.vscode-xml"
     }
