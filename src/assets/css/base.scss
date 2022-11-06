@@ -1,0 +1,26 @@
+// 每项缝隙的背景颜色
+/deep/ .van-cell-group {
+  background-color: #efefef;
+}
+// 控制cell单元格每一行的内容间距
+/deep/ .van-cell {
+  margin: 5px 0;
+  padding: 6px 16px;
+}
+// 修改单选框和按钮的display：flex 避免一行
+/deep/ .van-field__control--custom {
+  flex-wrap: wrap;
+}
+
+.footer {
+  width: 100%;
+  height: 16vw;
+  padding: 10px 20px;
+  background-color: #fff;
+  position: fixed;
+  bottom: -8px;
+  /deep/ .van-button--large {
+    width: 89%;
+    height: 35px;
+  }
+}

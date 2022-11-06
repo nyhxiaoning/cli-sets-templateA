@@ -1,32 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" class="beauty-scroll">
+<html lang="">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="./icon.svg">
-    <title><%= process.env.VUE_APP_NAME %></title>
-    <!-- require cdn assets css -->
-    <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.css) { %>
-      <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" />
-    <% } %>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>icon.ico" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
     </noscript>
-    <div id="popContainer" class="beauty-scroll" style="height: 100vh; overflow-y: scroll">
-      <div id="app"></div>
-    </div>
-    <script
-    type="text/javascript"
-    src="https://gosspublic.alicdn.com/aliyun-oss-sdk-6.16.0.min.js"
-  ></script>
-    <!-- require cdn assets js -->
-    <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
-      <script type="text/javascript" src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
-    <% } %>
+    <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
 </html>

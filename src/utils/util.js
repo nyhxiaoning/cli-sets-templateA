@@ -1,239 +1,119 @@
-import enquireJs from 'enquire.js'
-import {refreshToken} from '../services/user'
-import axios from 'axios'
-
-export function isDef (v){
-  return v !== undefined && v !== null
-}
-// 更新token
-export function handleRefreshToken (){
-  refreshToken().then(res => {
-    if (res.data.statusCode===200&&res.data.success===1) {
-      let userInfor = JSON.parse(localStorage.getItem('userInfor'));
-      userInfor.token = res.data.resultValue.token
-      localStorage.setItem('userInfor', JSON.stringify(userInfor));
-    } else if (res.data.statusCode !== '82050013') {
-      this.$message.error(res.data.message)
-    }
-  })
-}
-
-export function setTimeFunc() {
-  setInterval(() => {
-    let userInfor = JSON.parse(localStorage.getItem('userInfor'));
-    if (userInfor) {
-      handleRefreshToken();
-    }
-  }, 180000)
-}
 /**
- * Remove an item from an array.
+ * 回车时跳转到下一个元素
+ * @DateTime  2018-05-23
+ * @param     {[type]}                 $input [INPUT 元素列表]
  */
-export function handleDictionaryObj(arr) {
-  let obj = {}
-  arr.forEach(item => {
-    obj[item.id] = item.name
-  })
-  return obj
+function keydown_to ($input) {
+    if (!$input) $input = $('input:text:not(:disabled)');
+    $input.bind("keydown", function (e) {
+        var n = $input.length;
+        if (e.which == 13) {
+            e.preventDefault(); //Skip default behavior of the enter key
+            var nextIndex = $input.index(this) + 1;
+            if (nextIndex < n)
+                $input[nextIndex].focus();
+            else
+                $input[nextIndex - 1].blur();
+        }
+    });
 }
 
-export function remove (arr, item) {
-  if (arr.length) {
-    const index = arr.indexOf(item)
-    if (index > -1) {
-      return arr.splice(index, 1)
-    }
-  }
-}
-
-export function isRegExp (v) {
-  return _toString.call(v) === '[object RegExp]'
-}
-
-export function enquireScreen(call) {
-  const handler = {
-    match: function () {
-      call && call(true)
+// 全局变量的文件位置
+// 这里存储全局用到的一些枚举值内容
+export default {
+    autho: {
+        systemSet: {
+            status: 0,
+            errorMsg: "",
+        },
+        patientListComponent: {
+            status: 0,
+            errorMsg: "",
+        },
+        firstAidManagement: {
+            status: 0,
+            errorMsg: "",
+        },
+        commandDispatch: {
+            status: 0,
+            errorMsg: "",
+        },
+        dataStatistic: {
+            status: 0,
+            errorMsg: "",
+        },
+        checkEcg: {
+            status: 0,
+            errorMsg: "",
+        },
     },
-    unmatch: function () {
-      call && call(false)
-    }
-  }
-  enquireJs.register('only screen and (max-width: 767.99px)', handler)
-}
+    routerList: ['statisticApplication'],//路由缓存数组
+    messageList: [],//消息提醒列表
+    overTimeWebSocket: '',//超时提醒socket
+    socketTimer: '',//超时提醒心跳检测定时器
+    audioName: '',//声音提醒
+    voiceTip: '',//声音提醒是否开启
+    //胸痛病历按钮完成急救状态
+    buttonState: {
+        emergencyfinishstatus: "0",//急救信息完成状态 (1完成,0未完成)
+        checkfinishstatus: "0",//检查信息 (1完成,0未完成)
+        treatmentfinishstatus: "0",//胸痛诊疗 (1完成,0未完成)
+        cathlabfinishstatus: "0",//导管室 (1完成,0未完成)
+        outcomefinishstatus: "0",//患者转归 (1完成,0未完成)
+        calthstate: '0',//一键启动导管室（1已启动，0未启动）
+        task_state: "",//任务状态（提交审核为空，7审核，8拒绝审核，9审核通过）
+        ts_task: '',//
+        ts_pat_info: '',
+        outComeButton: false,//患者转归页签
+        isCathLab: false,//导管室页签
+        cp_diagnosis_code: '',//初步诊断
+        give_up_treatment: '',//患者自愿放弃治疗
+        is_trans_hospital: '',//直接转送上级医院
+        setCathLabState: '1',//措施选择【直接PCI】时 状态为1，措施选择【转运PCI】时，转运PCI选择【接收患者】时状态为2，措施选择【溶栓】时，溶栓后措施选择【补救PCI】或【溶栓后介入】状态为3，侵入性策略为【2H紧急介入治疗】时状态为4
+    },
+    //卒中各页签完成状态
+    strokeButtonState: {
+        emergencyfinishstatus: '0',//急救信息完成状态 (1完成,0未完成)
+        historyfinishstatus: '0',//既往史完成状态 (1完成,0未完成)
+        checkfinishstatus: '0',//检查信息完成状态 1完成,0未完成
+        inhospitaltreatfinishstatus: '0',//住院治疗完成状态 1完成,0未完成
+        outcomefinishstatus: '0',//患者转归完成状态  1完成,0未完成
+        stroketreatfinishstatus: '0',//卒中诊疗完成状态 1完成,0未完成
+        ts: '',
+        task_state: '',
+        pk_task: ''
+    },
+    loginState: {
+        saveDisabled: false, //保存按钮
+        applyDisabled: false,//申请导管室
+        savePatCPCMRDisabled: false,//完成急救
+        submitPatCPCMRDisabled: false,//提交审核
+        examinePatCPCMRDisabled: false,//审核
+        filePatCPCMRDisabled: false,//归档
+    },
+    lockState: '',//病历锁定状态
+    lockName: '',
+    routerName: '',//跳转到患者病历的路由名称
+    buttons: [],
+    keydown_to,
+    logindata: {
+    }, //当前登陆者的信息
+    painDate: {
+        rowData: {
+            firsttimestart: '',
+            firsttimeend: '',
+            effectivemark: '1',
+            minvalue: '',
+            maxvalue: ''
+        }
+    },//数据上报或者患者列表跳转到胸痛病历的变量
+    roleSpace: {
+        role_pk_org: '',
+        role_pk_group: ''
+    },
+    systemType: 'MCPC'
+};
 
-const _toString = Object.prototype.toString
 
-export function parseTime(time, cFormat) {
-  if (arguments.length === 0 || !time) {
-    return null
-  }
-  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
-  let date
-  if (typeof time === 'object') {
-    date = time
-  } else {
-    if ((typeof time === 'string')) {
-      if ((/^[0-9]+$/.test(time))) {
-        // support "1548221490638"
-        time = parseInt(time)
-      } else {
-        // support safari
-        // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
-        time = time.replace(new RegExp(/-/gm), '/')
-      }
-    }
 
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
-      time = time * 1000
-    }
-    date = new Date(time)
-  }
-  const formatObj = {
-    y: date.getFullYear(),
-    m: date.getMonth() + 1,
-    d: date.getDate(),
-    h: date.getHours(),
-    i: date.getMinutes(),
-    s: date.getSeconds(),
-    a: date.getDay()
-  }
-  const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
-    const value = formatObj[key]
-    // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
-    return value.toString().padStart(2, '0')
-  })
-  return time_str
-}
-export async function getImage(url) {
-  const { data } = await axios({
-    method: "GET",
-    url: "/upload" + url,
-    responseType: "blob"
-  })
-  return data;
-}
 
-export function downloadIamge(imgsrc, name) {
-  var image = new Image();
-  // 解决跨域 Canvas 污染问题
-  // image.setAttribute("crossOrigin", "Anonymous");
-  image.crossOrigin = 'Anonymous'
-  image.onload = function() {
-    var canvas = document.createElement("canvas");
-    canvas.width = image.width;
-    canvas.height = image.height;
-    var context = canvas.getContext("2d");
-    context.drawImage(image, 0, 0, image.width, image.height);
-    var url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
-  
-    var a = document.createElement("a"); // 生成一个a元素
-    var event = new MouseEvent("click"); // 创建一个单击事件
-    a.download = name || "photo"; // 设置图片名称
-    a.href = url; // 将生成的URL设置为a.href属性
-    a.dispatchEvent(event); // 触发a的单击事件
-  };
-  image.src = imgsrc;
-}
-
-export function ajax(url, callback, options, onprogress) {
-  window.URL = window.URL || window.webkitURL;
-  var xhr = new XMLHttpRequest();
-  xhr.open('get', url, true);
-  if (options.responseType) {
-      xhr.responseType = options.responseType;
-  }
-  xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-          callback(xhr);
-      }
-  };
-  xhr.onprogress = function(event) {
-    if (onprogress) {
-      onprogress( ~~(event.loaded/event.total*100))
-    }
-  }
-  xhr.send();
-}
-export function downloadAjax(url, name, onprogress) {
-  let innerurl = url;// 文件地址
-  ajax(innerurl, function (xhr) {
-      let filename = name + '.mp4';
-      let content = xhr.response;
-      let a = document.createElement('a');
-      let blob = new Blob([xhr.response]);
-      let url = window.URL.createObjectURL(blob);
-      a.href = url;
-      a.download = filename;
-      a.click();
-      window.URL.revokeObjectURL(url);
-  }, {
-      responseType: 'blob'
-  }, onprogress);
-}
-
-export function getUrlBase64(url) {
-  return new Promise(resolve => {
-    let canvas = document.createElement('canvas')
-    let ctx = canvas.getContext('2d')
-    let img = new Image()
-    img.crossOrigin = 'Anonymous' //允许跨域
-    img.src = url
-    img.onload = function() {
-    canvas.height = 300
-    canvas.width = 300
-    ctx.drawImage(img, 0, 0, 300, 300)
-    let dataURL = canvas.toDataURL('image/png')
-    canvas = null
-    resolve(dataURL)
-    }
-  })
-}
-export function download(url) {
-  getUrlBase64(url).then(base64 => {
-    let link = document.createElement('a')
-    link.href = base64
-    link.download = 'qrCode.png'
-    link.click()
-  })
-}
-
-export function downloadFile(res, fileName) {
-  if (!res) {
-      return;
-  }
-  if (window.navigator.msSaveBlob) {
-      // IE以及IE内核的浏览器
-      try {
-          window.navigator.msSaveBlob(res, fileName); // res为接口返回数据，这里请求的时候已经处理了，如果没处理需要在此之前自行处理var data = new Blob([res.data]) 注意这里需要是数组形式的,fileName就是下载之后的文件名
-          // window.navigator.msSaveOrOpenBlob(res, fileName); //此方法类似上面的方法，区别可自行百度
-      } catch (e) {
-          console.log(e);
-      }
-  } else {
-      let url = window.URL.createObjectURL(new Blob([res]));
-      let link = document.createElement("a");
-      link.style.display = "none";
-      link.href = url;
-      link.setAttribute("download", fileName.replace(new RegExp('"', 'g'), '')); // 文件名
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); // 下载完成移除元素
-      window.URL.revokeObjectURL(url); // 释放掉blob对象
-  }
-}
-
-export function downloadByFile(res, fileName) {
-  var blob = new Blob([res], {//这个里面的data 的二进制文件 创建一个文件对象
-    type:'text/plain;charset=utf-8'
-  })
-  var downloadElement = document.createElement('a')//创建一个a 虚拟标签
-  var href = window.URL.createObjectURL(blob) // 创建下载的链接
-  downloadElement.href = href
-  downloadElement.download = fileName
-  document.body.appendChild(downloadElement)
-  downloadElement.click() // 点击下载
-  document.body.removeChild(downloadElement) // 下载完成移除元素
-  window.URL.revokeObjectURL(href) 
-}

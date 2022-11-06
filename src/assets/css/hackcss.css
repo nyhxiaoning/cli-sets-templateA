@@ -1,0 +1,18 @@
+/deep/ .van-radio__icon--checked .van-icon-success::before {
+  background-color: black;
+  position: absolute;
+  right: 26%;
+  top: 25%;
+  width: 55%;
+  height: 55%;
+  background-color: #bcc9e4;
+  border-radius: 50%;
+}
+/deep/ .van-radio__icon--checked .van-icon {
+  background-color: #fff !important;
+}
+
+/* 使用样式的hack，导致最后的渲染样式不是很好看，有一点圆形的毛边 */
+
+/* 使用ant-design的插件实现radio的所有的radio的单选按钮的实现 */
+/* <a-radio-group :options="plainOptions" :default-value="value1" @change="onChange1" /> */
