@@ -1,52 +1,105 @@
 <template>
-  <div>
-    <span>显示一个logo</span>
-  </div>
-
-  <router-view @click="routeFn" v-show="routerFlag" />
-  <SET />
+  <a-config-provider :locale="locale" :get-popup-container="popContainer">
+    <router-view v-if="isRouterAlive"/>
+  </a-config-provider>
 </template>
-<script lang="ts">
-import { defineComponent, nextTick, onMounted,ref,watch } from 'vue'
-import SET from "@/components/set/set.vue";
-import {useStore} from 'vuex'
-import { useRoute,useRouter } from 'vue-router';
- export default defineComponent({
-  setup(props) {
-    const route = useRoute()
-    const router = useRouter()
-  console.log(router,'router',route)
-    // watch(()=>router.name,(pre,cur)=>{
-    //   console.log('地址变化',cur,pre)
-    // })
-    const store = useStore();
-    let theme=window.localStorage.getItem("theme");
-    theme&&window.document.documentElement.setAttribute("data-ming",theme);
-    const routerFlag = ref(store.state.routeFlag)
-    // 菜单触发
-    const routeFn = ()=>{
-      routerFlag.value = false
-      console.log('菜单触发----------------------',store.state)
-      setTimeout(()=>{
-        routerFlag.value = true
-      })
-    }
-    onMounted(()=>{
-      debugger
-    })
 
+<script>
+import {enquireScreen} from './utils/util'
+import {mapState, mapMutations} from 'vuex'
+import themeUtil from '@/utils/themeUtil';
+import {getI18nKey} from '@/utils/routerUtil'
+
+export default {
+  name: 'App',
+  provide() {
     return {
-        routeFn,
-        routerFlag
+      reload: this.reload
     }
   },
-  components:{SET}
-})
+  data() {
+    return {
+      locale: {},
+      isRouterAlive: true
+    }
+  },
+  created () {
+    this.setHtmlTitle()
+    this.setLanguage(this.lang)
+    enquireScreen(isMobile => this.setDevice(isMobile))
+  },
+  mounted() {
+   this.setWeekModeTheme(this.weekMode)
+  },
+  watch: {
+    weekMode(val) {
+      this.setWeekModeTheme(val)
+    },
+    lang(val) {
+      this.setLanguage(val)
+      this.setHtmlTitle()
+    },
+    $route() {
+      this.setHtmlTitle()
+    },
+    'theme.mode': function(val) {
+      let closeMessage = this.$message.loading(`您选择了主题模式 ${val}, 正在切换...`)
+      themeUtil.changeThemeColor(this.theme.color, val).then(closeMessage)
+    },
+    'theme.color': function(val) {
+      let closeMessage = this.$message.loading(`您选择了主题色 ${val}, 正在切换...`)
+      themeUtil.changeThemeColor(val, this.theme.mode).then(closeMessage)
+    },
+    'layout': function() {
+      window.dispatchEvent(new Event('resize'))
+    }
+  },
+  computed: {
+    ...mapState('setting', ['layout', 'theme', 'weekMode', 'lang'])
+  },
+  methods: {
+    ...mapMutations('setting', ['setDevice']),
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(() => {
+        this.isRouterAlive = true
+      })
+    },
+    setWeekModeTheme(weekMode) {
+      if (weekMode) {
+        document.body.classList.add('week-mode')
+      } else {
+        document.body.classList.remove('week-mode')
+      }
+    },
+    setLanguage(lang) {
+      this.$i18n.locale = lang
+      switch (lang) {
+        case 'CN':
+          this.locale = require('ant-design-vue/es/locale-provider/zh_CN').default
+          break
+        case 'HK':
+          this.locale = require('ant-design-vue/es/locale-provider/zh_TW').default
+          break
+        case 'US':
+        default:
+          this.locale = require('ant-design-vue/es/locale-provider/en_US').default
+          break
+      }
+    },
+    setHtmlTitle() {
+      const route = this.$route
+      const key = route.path === '/' ? 'home.name' : getI18nKey(route.matched[route.matched.length - 1].path)
+      document.title = process.env.VUE_APP_NAME + ' | ' + this.$t(key)
+    },
+    popContainer() {
+      return document.getElementById("popContainer")
+    }
+  }
+}
 </script>
 
-<style lang="scss">
-  *{
-    margin: 0;
+<style lang="less" scoped>
+  #id{
   }
-  
 </style>

@@ -1,51 +1,181 @@
-import { __assign } from "tslib";
-//1.引入vue
-// import Vue from 'vue'
-//2.引入axios库
-import axiosNew from 'axios';
-import { config } from '@/utils/config'; //引入公用文件
-axiosNew.defaults.timeout = 3000; //请求超时时间
-axiosNew.interceptors.request.use(//请求拦截
-function (//请求拦截
-config) {
-    // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    // let token =sessionStorage.getItem('token');
-    // let token=store.getters.getToken;
-    // if (token) {//如果有token给请求头加上
-    //     config.headers.common['token'] =token
-    // }
-    return config;
-}, function (err) {
-    return Promise.reject(err);
-});
-axiosNew.interceptors.response.use(function (response) {
-    // try{
-    //     let {token}=response.data;
-    //     if(token){//将登陆的返回的token保存下来
-    //         store.dispatch('tokenChange',token);
-    //     }
-    // }catch(err){
-    //     console.log("在相应拦截这边其他请求不需要取token",err)
-    // };
-    // if(response.data.code==10001||response.data.code==402){//如果token为空或者过期，跳到登录
-    //     store.dispatch('tokenChange',"");
-    //     router.push({path:"/login"});
-    // }
-    return response;
-}, function (err) {
-    return Promise.reject(err);
-});
-// axiosNew.defaults.baseURL=""
-var axios = function (_a) {
-    var _b = _a === void 0 ? {} : _a, path = _b.path, _c = _b.method, method = _c === void 0 ? "GET" : _c, _d = _b.data, data = _d === void 0 ? {} : _d;
-    return new Promise(function (resolve, reject) {
-        var datas = { params: __assign({}, data) };
-        if (method === "POST")
-            datas = __assign({ data: data });
-        axiosNew(__assign({ url: "".concat(config.host).concat(path), method: method }, datas)).then(function (res) {
-            resolve(res.data);
-        }).catch(function (err) { resolve(-1); });
-    });
-};
-export default axios;
-//# sourceMappingURL=request.js.map
+import axios from 'axios'
+import Cookie from 'js-cookie'
+
+// 跨域认证信息 header 名
+// const xsrfHeaderName = 'Authorization'
+const xsrfHeaderName = ''
+
+axios.defaults.timeout = 5000
+axios.defaults.withCredentials = true
+axios.defaults.xsrfHeaderName = xsrfHeaderName
+axios.defaults.xsrfCookieName = xsrfHeaderName
+    // 认证类型
+const AUTH_TYPE = {
+    BEARER: 'Bearer',
+    BASIC: 'basic',
+    AUTH1: 'auth1',
+    AUTH2: 'auth2',
+}
+
+// http method
+const METHOD = {
+    GET: 'get',
+    POST: 'post',
+    GETID: 'getId',
+    DELETE: 'delete',
+    PUT: 'put'
+}
+
+/**
+ * axios请求
+ * @param url 请求地址
+ * @param method {METHOD} http method
+ * @param params 请求参数
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+async function request(url, method, params, config) {
+    switch (method) {
+        case METHOD.GET:
+            return axios.get(url, { params, ...config })
+        case METHOD.POST:
+            return axios.post(url, params, config)
+        case METHOD.GETID:
+            return axios.get(url+ '/' + params, config)
+        case METHOD.DELETE:
+            return axios.delete(url+ '/' + params, config)
+        case METHOD.DELETE1:
+            return axios.delete(url)
+        case METHOD.PUT:
+            return axios.put(url, params, config)
+        default:
+            return axios.get(url, { params, ...config })
+    }
+}
+
+/**
+ * 设置认证信息
+ * @param auth {Object}
+ * @param authType {AUTH_TYPE} 认证类型，默认：{AUTH_TYPE.BEARER}
+ */
+function setAuthorization(auth, authType = AUTH_TYPE.BEARER) {
+    switch (authType) {
+        case AUTH_TYPE.BEARER:
+            Cookie.set(xsrfHeaderName, auth, )
+                // Cookie.set(xsrfHeaderName, 'Bearer ' + auth.token, { expires: auth.expireAt })
+            break
+        case AUTH_TYPE.BASIC:
+        case AUTH_TYPE.AUTH1:
+        case AUTH_TYPE.AUTH2:
+        default:
+            break
+    }
+}
+
+/**
+ * 移出认证信息
+ * @param authType {AUTH_TYPE} 认证类型
+ */
+function removeAuthorization(authType = AUTH_TYPE.BEARER) {
+    switch (authType) {
+        case AUTH_TYPE.BEARER:
+            Cookie.remove(xsrfHeaderName)
+            break
+        case AUTH_TYPE.BASIC:
+        case AUTH_TYPE.AUTH1:
+        case AUTH_TYPE.AUTH2:
+        default:
+            break
+    }
+}
+
+/**
+ * 检查认证信息
+ * @param authType
+ * @returns {boolean}
+ */
+function checkAuthorization(authType = AUTH_TYPE.BEARER) {
+    switch (authType) {
+        case AUTH_TYPE.BEARER:
+            if (Cookie.get(xsrfHeaderName)) {
+                return true
+            }
+            break
+        case AUTH_TYPE.BASIC:
+        case AUTH_TYPE.AUTH1:
+        case AUTH_TYPE.AUTH2:
+        default:
+            break
+    }
+    return false
+}
+
+/**
+ * 加载 axios 拦截器
+ * @param interceptors
+ * @param options
+ */
+function loadInterceptors(interceptors, options) {
+    const { request, response } = interceptors
+    // 加载请求拦截器
+    request.forEach(item => {
+            let { onFulfilled, onRejected } = item
+            if (!onFulfilled || typeof onFulfilled !== 'function') {
+                onFulfilled = config => config
+            }
+            if (!onRejected || typeof onRejected !== 'function') {
+                onRejected = error => Promise.reject(error)
+            }
+            
+            axios.interceptors.request.use(
+                config => onFulfilled(config, options),
+                error => onRejected(error, options)
+            )
+        })
+        // 加载响应拦截器
+    response.forEach(item => {
+        let { onFulfilled, onRejected } = item
+        if (!onFulfilled || typeof onFulfilled !== 'function') {
+            onFulfilled = response => response
+        }
+        if (!onRejected || typeof onRejected !== 'function') {
+            onRejected = error => Promise.reject(error)
+        }
+        axios.interceptors.response.use(
+            response => onFulfilled(response, options),
+            error => onRejected(error, options)
+        )
+    })
+}
+
+/**
+ * 解析 url 中的参数
+ * @param url
+ * @returns {Object}
+ */
+function parseUrlParams(url) {
+    const params = {}
+    if (!url || url === '' || typeof url !== 'string') {
+        return params
+    }
+    const paramsStr = url.split('?')[1]
+    if (!paramsStr) {
+        return params
+    }
+    const paramsArr = paramsStr.replace(/&|=/g, ' ').split(' ')
+    for (let i = 0; i < paramsArr.length / 2; i++) {
+        const value = paramsArr[i * 2 + 1]
+        params[paramsArr[i * 2]] = value === 'true' ? true : (value === 'false' ? false : value)
+    }
+    return params
+}
+
+export {
+    METHOD,
+    AUTH_TYPE,
+    request,
+    setAuthorization,
+    removeAuthorization,
+    checkAuthorization,
+    loadInterceptors,
+    parseUrlParams
+}

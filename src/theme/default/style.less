@@ -1,0 +1,190 @@
+.week-mode{
+  overflow: hidden;
+  filter: invert(80%);
+}
+.beauty-scroll{
+  scrollbar-color: @primary-color @primary-2;
+  scrollbar-width: thin;
+  -ms-overflow-style:none;
+  position: relative;
+  &::-webkit-scrollbar{
+    width: 3px;
+    height: 1px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: @primary-color;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0);
+    border-radius: 3px;
+    background: @primary-3;
+  }
+}
+.split-right{
+  &:not(:last-child) {
+    border-right: 1px solid rgba(98, 98, 98, 0.2);
+  }
+}
+.disabled{
+  cursor: not-allowed;
+  color: @disabled-color;
+  pointer-events: none;
+}
+.ant-input-affix-wrappe{
+  .ant-input {
+    text-overflow: ellipsis;  // 输入框文字超出失去焦点后显示省略号
+    &::placeholder {
+      color: #999999;         // placeholder的颜色样式
+    }
+  }
+}
+.ant-select-open .ant-select-selection{
+  box-shadow: 0 0 0 1px #407fff!important;
+}
+
+.ant-input{
+  border: 0!important;
+
+}
+.ant-card-bordered{
+  border: 0!important;
+}
+.ant-input:focus{
+  // box-shadow: 0 0 0 2px red
+  border: 0;
+  box-shadow: 0 0 0 1px #407fff!important;
+}
+.has-error .ant-input{
+  border: 1px solid red !important;
+  box-shadow: none!important;
+}
+
+// .ant-modal{
+//   // top: calc(50% - 80px)!important;
+// }
+ .ant-modal-content{
+ .ant-btn-danger{
+    background-color: #407fff!important;
+    border-color: #407fff!important;
+  }
+}
+.ant-btn-primary:hover, .ant-btn-primary:focus{
+  color: #fff;
+    background-color: #407fff;
+    border-color: #407fff;
+}
+// 分页
+.ant-pagination-total-text {
+  font-size: 14px!important;
+  font-weight: 400!important;
+  color: #1d2129!important;
+  line-height: 34px!important;
+}
+.ant-pagination-item-link {
+  border-color: transparent!important;
+}
+.ant-pagination-item {
+  color: #4e5969!important;
+  border: none!important;
+}
+.ant-pagination-item-active a {
+  width: 32px!important;
+  height: 32px!important;
+  background: #e8f3ff!important;
+  border-radius: 2px!important;
+  font-size: 14px!important;
+  color: #165dff!important;
+  line-height: 32px!important;
+  border: none!important;
+}
+.ant-pagination-next {
+  line-height: 30px!important;
+}
+.ant-pagination-options-size-changer.ant-select {
+  margin-right: 0!important;
+}
+.ant-select-selection {
+  border: none;
+  background: #f2f3f5;
+  border-radius: 2px;
+}
+
+
+/deep/.ant-table-thead > tr > th {
+  color: #1d2129!important;
+  background: #f2f3f5!important;
+  border-bottom: 1px solid #e5e6eb;
+}
+/deep/.ant-table-thead > tr:first-child > th:last-child {
+  border-radius: 0px;
+}
+/deep/.ant-table-thead > tr:first-child > th:first-child {
+  border-radius: 0px;
+}
+/deep/.ant-table-tbody > tr > td {
+  background: rgba(255,255,255,0.00);
+  border-bottom: 1px solid #e5e6eb;
+}
+/deep/ .ant-table-body tr td {
+  font-weight: 400!important;
+  color: #1D2129!important;
+}
+/deep/.ant-table-placeholder{
+  border-bottom: 0;
+}
+
+/deep/ .ant-input {
+  width: 300px;
+  height: 32px;
+  background: #f2f3f5;
+  border-radius: 1px;
+  // border: 1px solid #f2f3f5;
+}
+/deep/ .ant-select-selection {
+  // width: 300px!important;
+  height: 32px!important;
+  background: #f7f8fa;
+  border-radius: 4px!important;
+}
+/deep/ .ant-pagination-options {
+  .ant-select-selection {
+    width: 90px!important;
+   }
+}
+/deep/ .ant-input-search {
+    .ant-input {
+      width: 220px!important;
+    }
+}
+/deep/ .ant-form-item-label {
+  // width: 68px!important;
+  // margin-right: 10px;
+  label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #4e5969;
+  }
+}
+
+/deep/ .ant-form-item-children {
+  .ant-btn {
+       background: #f2f3f5!important;
+       border-radius: 2px!important;
+       border: none;
+       color: #4e5969;
+       font-size: 14px;
+   }
+   .ant-btn-primary {
+       background: #006FD0!important;
+       border-radius: 2px!important;
+       border: none;
+       color: #FFFFFF;
+       font-size: 14px;
+   }
+   .ant-btn-primary:hover, .ant-btn-primary:focus {
+    color: #fff;
+    background-color:#407fff!important;
+    border-color: #407fff;
+}
+}
