@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="89px" height="88px" viewBox="0 0 89 88" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 12</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="空气净化器" transform="translate(-108.000000, -1034.000000)">
+            <g id="编组-12" transform="translate(108.500000, 1034.000000)">
+                <circle id="椭圆形" fill="#2AC9DC" cx="44" cy="44" r="44"></circle>
+                <g id="编组-10" transform="translate(23.000000, 22.000000)">
+                    <g id="编组-9" transform="translate(10.225029, 4.629934)" fill="#FFFFFF" font-family="PingFangSC-Regular, PingFang SC" font-size="32" font-weight="normal" line-spacing="32">
+                        <text id="A">
+                            <tspan x="0" y="34">A</tspan>
+                        </text>
+                    </g>
+                    <path d="M17.9885501,1.41903357 C7.84793231,2.69879452 0,11.4778418 0,22.1174246 C0,32.1082867 6.92009385,40.4585791 16.1604867,42.4993649 L11.2741848,44" id="路径" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M42,0 C31.8593822,1.27976095 24.0114499,10.0588083 24.0114499,20.698391 C24.0114499,30.6892531 30.9315437,39.0395456 40.1719366,41.0803313 L35.2856347,42.5809664" id="路径备份" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(33.005725, 21.290483) scale(-1, -1) translate(-33.005725, -21.290483) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,33 +1,24 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import {formatRoutes} from '@/utils/routerUtil'
+import { createRouter, createWebHashHistory } from 'vue-router';
 
-Vue.use(Router)
+// TODO:实现vue3中，自动注册组件路由的实现，按照文件夹进行访问即可。
 
-// 不需要登录拦截的路由配置
-const loginIgnore = {
-  names: ['404', '403'],      //根据路由名称匹配
-  paths: ['/login'],   //根据路由fullPath匹配
-  /**
-   * 判断路由是否包含在该配置中
-   * @param route vue-router 的 route 对象
-   * @returns {boolean}
-   */
-  includes(route) {
-    return this.names.includes(route.name) || this.paths.includes(route.path)
-  }
+const modules = import.meta.globEager('../views/*/index.vue');
+const routes = [];
+for (const path in modules) {
+  routes.push({
+    path: `/${path.split('/')[2]}`,
+    component: modules[path].default
+  });
 }
 
-/**
- * 初始化路由实例
- * @param isAsync 是否异步路由模式
- * @returns {VueRouter}
- */
-function initRouter(isAsync) {
-  console.log('111', isAsync)
-  const options = isAsync ? require('./async/config.async').default : require('./config').default
-  // const options = true ? require('./async/config.async').default : require('./config').default
-  formatRoutes(options.routes)
-  return new Router(options)
-}
-export {loginIgnore, initRouter}
+routes.unshift({
+  path: '/',
+  redirect: '/Home'
+});
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes: routes
+});
+
+export default router;

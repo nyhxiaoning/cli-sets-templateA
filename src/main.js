@@ -1,28 +1,29 @@
-import Vue from 'vue'
-import App from './App.vue'
-import { initRouter } from './router'
-import './theme/index.less'
-import Antd from 'ant-design-vue'
-// import '@/mock'
-import store from './store'
-import 'animate.css/source/animate.css'
-import Plugins from '@/plugins'
-import { initI18n } from '@/utils/i18n'
-import bootstrap from '@/bootstrap'
-import 'moment/locale/zh-cn'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import { emoji } from './directives/index';
+import '@/common/styles/index.scss';
+import { Circle, Switch, DatetimePicker, Form, Field, CellGroup, Image as VanImage } from 'vant';
+const app = createApp(App);
+// TODO:h5样式
+import '@/common/styles/index.scss';
+import '@/common/styles/public.scss';
+import '@/common/styles/reset.scss';
 
-const router = initRouter(store.state.setting.asyncRoutes)
-const i18n = initI18n('CN', 'US')
+import Vconsole from 'vconsole'; // 移动端控制台插件
 
-Vue.use(Antd)
-Vue.config.productionTip = false
-Vue.use(Plugins)
+// if (import.meta.env.MODE === 'dev') {
+//   new Vconsole();
+// }
 
-bootstrap({ router, store, i18n, message: Vue.prototype.$message })
+app.directive('emoji', emoji);
+app.use(router);
+app.use(Circle);
+app.use(Switch);
+app.use(DatetimePicker);
+app.use(Form);
+app.use(Field);
+app.use(CellGroup);
+app.use(VanImage);
 
-new Vue({
-    router,
-    store,
-    i18n,
-    render: h => h(App),
-}).$mount('#app')
+app.mount('#app');
