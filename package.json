@@ -34,7 +34,7 @@
     "scripts/*"
   ],
   "lint-staged": {
-    "*.{js,ts,vue,html}": [
+    "*.{js,ts,vue}": [
       "eslint --fix --color",
       "git add"
     ]
